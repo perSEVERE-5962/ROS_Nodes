@@ -1,0 +1,7 @@
+<launch>
+
+    <include file="$(find ldlidar_stl_ros)/launch/ld06.launch"/>
+    <node name="crop_laser_scan" pkg="frc_ros_helpers" type="crop_laser_scan.py" output="screen"/>
+    <node name="scan_2_net_tab" pkg="frc_ros_helpers" type="scan_2_net_tab.py" output="screen"/>
+
+</launch>
