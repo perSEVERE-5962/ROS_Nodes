@@ -4,7 +4,7 @@ from sensor_msgs.msg import LaserScan
 import numpy as np
 from math import pi
 
-ANGLE = pi/4
+ANGLE = pi/5
 cropped_pub = None
 
 def callback(msg):
@@ -15,7 +15,11 @@ def callback(msg):
     left_ranges = ranges[:index_count]
     res_ranges = np.concatenate((right_ranges, left_ranges), -1)
     #res_ranges = res_ranges[~np.isnan(res_ranges)]
+    for i in res_ranges:
+        if i >= 0.9144:
+            i = float("nan") 
     msg.ranges = res_ranges
+    #if right angle then 
 
     if cropped_pub:
         cropped_pub.publish(msg)
@@ -31,3 +35,5 @@ if __name__ =='__main__':
 
     except rospy.ROSInterruptException:
         pass
+
+
