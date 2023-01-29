@@ -17,7 +17,26 @@ def callback(msg):
     #res_ranges = res_ranges[~np.isnan(res_ranges)]
     for i in res_ranges:
         if i >= 0.9144:
-            i = float("nan") 
+            i = float("nan")
+        else:
+            pass
+            if i == right_ranges:
+                pass
+                #move right until i = 0
+                #while i != 0:
+                #   move.right() send command for robot to move, and will auto stop when i == 0 (position of pole?) 
+    def getting_calculations():
+        pass
+        #get system to get point (p)
+        p = 0.6096
+        leftright = p/2
+        #leftright is the distance needed to square up to the pole, you get is by dividing the hypotunuse ⊿ by 2
+        distance = p/p**3
+        ideal_distance = 1 #"placeholder for how far we would like the robot to move up towards the pole"
+        leftright=leftright*39.3701
+        distance=distance*39.3701
+        #turning both value to inches for robot movement
+        return leftright, distance
     msg.ranges = res_ranges
     #if right angle then 
 
