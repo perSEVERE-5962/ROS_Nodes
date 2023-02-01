@@ -42,7 +42,7 @@ def callback(msg):
         leftright=leftright*39.3701
         distance=distance*39.3701
         #turning both value to inches for robot movement
-        return leftright, distance
+        return leftright, distance, ideal_distance - distance 
     msg.ranges = res_ranges
     #if right angle then 
 
