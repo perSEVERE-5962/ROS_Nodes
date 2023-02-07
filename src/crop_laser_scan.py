@@ -38,13 +38,13 @@ def callback(msg):
         #get system to get point (p)
         p = sum(pole)
         leftright = p/2
-        #leftright is the distance needed to square up to the pole, you get is by dividing the hypotunuse ⊿ by 2
+        #leftright is the distance needed to square up to the pole, you get it by dividing the hypotunuse ⊿ by 2
         distance = p/p**3
         ideal_distance = 1 #"placeholder for how far we would like the robot to move up towards the pole"
         leftright=leftright*39.3701
         distance=distance*39.3701
         #turning both value to inches for robot movement
-        return leftright, distance
+        return leftright, distance, ideal_distance - distance 
     msg.ranges = res_ranges
     #if right angle then
 callback()
