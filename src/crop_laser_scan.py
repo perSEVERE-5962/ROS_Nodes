@@ -7,6 +7,25 @@ from math import pi
 ANGLE = pi/5
 cropped_pub = None
 
+
+
+def finding_pole(ranges):
+        x = min(ranges)
+        y = len(ranges)
+        z = front_points.index(x)
+        first_calculations = z/y
+        first_calculations * 100
+        if first_calculations >= .30 and first_calculations <= .70:
+	        print("Worked!")
+            if first_calculations > .50:
+	            print("right")
+		        distance_away = -x/2
+	        elif first_calculations < .50:
+		        print("left")
+		        distance_away = x/2
+	        else:
+		        print("Middle")
+
 def callback(msg):
     HALF_ANGLE=ANGLE/2
     index_count = int(HALF_ANGLE//msg.angle_increment)
@@ -18,17 +37,12 @@ def callback(msg):
     for i in res_ranges:
         if i >= 0.9144:
             i = float("nan")
-        else:
-            pass
-            if i == right_ranges:
-                pass
+    finding_pole(res_ranges)
                 #if i in right_ranges?
                 #move right until i = 0
                 #while i != 0:
                 #   move.right() send command for robot to move, and will auto stop when i == 0 (position of pole?) 
-    def finding_pole():
-        for i in res_ranges:
-            pass
+		
         #This is to get the pole points to pass into getting_calculations
         
     def getting_calculations():
