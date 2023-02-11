@@ -29,11 +29,13 @@ def finding_pole(ranges):
 def callback(msg):
     HALF_ANGLE=ANGLE/2
     index_count = int(HALF_ANGLE//msg.angle_increment)
-    ranges = msg.ranges
+    anges = msg.ranges #Collective of all points
     right_ranges = ranges[len(msg.ranges)-index_count:]
     left_ranges = ranges[:index_count]
     res_ranges = np.concatenate((right_ranges, left_ranges), -1)
+    #res_ranges = res_rantenate((right_ranges, left_ranges), -1)
     #res_ranges = res_ranges[~np.isnan(res_ranges)]
+
     for i in res_ranges:
         if i >= 0.9144:
             i = float("nan")
@@ -46,9 +48,8 @@ def callback(msg):
         #This is to get the pole points to pass into getting_calculations
         
     def getting_calculations():
-        pass
         #get system to get point (p)
-        p = 0.6096 # Stand in for the point representing the center of the pole
+        p = sum(pole)
         leftright = p/2
         #leftright is the distance needed to square up to the pole, you get it by dividing the hypotunuse ⊿ by 2
         distance = p/p**3
@@ -58,7 +59,10 @@ def callback(msg):
         #turning both value to inches for robot movement
         return leftright, distance, ideal_distance - distance 
     msg.ranges = res_ranges
-    #if right angle then 
+    #if right angle then
+callback()
+finding_pole()
+getting_calculations()
 
     if cropped_pub:
         cropped_pub.publish(msg)
