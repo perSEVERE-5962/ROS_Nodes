@@ -79,6 +79,7 @@ if __name__ =='__main__':
     except rospy.ROSInterruptException:
         pass
 
+<<<<<<< HEAD
 #________________________________________________________________________________
 #Jenks Natural Breaks Optimization
 import pandas as pd
@@ -94,3 +95,6 @@ df.sort_values(by="Data")
 df["grouping"] = pd.qcut(df["Data"], q=12, labels=["Grouping1", "Grouping2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"])
 print(df)
 print(grouping_)
+=======
+    
+>>>>>>> ZacharyBaron
