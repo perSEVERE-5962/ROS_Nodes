@@ -4,7 +4,7 @@ from sensor_msgs.msg import LaserScan
 import numpy as np
 from math import pi
 
-ANGLE = pi/5
+ANGLE = pi/3 #originally 5 
 cropped_pub = None
 
 
@@ -16,20 +16,19 @@ def finding_pole(ranges):
         first_calculations = z/y
         first_calculations * 100
         if first_calculations >= .30 and first_calculations <= .70:
-	        print("Worked!")
             if first_calculations > .50:
-	            print("right")
-		        distance_away = -x/2
-	        elif first_calculations < .50:
-		        print("left")
-		        distance_away = x/2
-	        else:
-		        print("Middle")
+                distance_away = -x/2
+                print("right")
+            elif first_calculations < .50:
+                print("left")
+                distance_away = x/2
+            else:
+                print("Middle")
 
 def callback(msg):
     HALF_ANGLE=ANGLE/2
     index_count = int(HALF_ANGLE//msg.angle_increment)
-    anges = msg.ranges #Collective of all points
+    ranges = msg.ranges #Collective of all points
     right_ranges = ranges[len(msg.ranges)-index_count:]
     left_ranges = ranges[:index_count]
     res_ranges = np.concatenate((right_ranges, left_ranges), -1)
@@ -50,6 +49,7 @@ def callback(msg):
     def getting_calculations():
         #get system to get point (p)
         p = sum(pole)
+        #Have yet to get p(pole)
         leftright = p/2
         #leftright is the distance needed to square up to the pole, you get it by dividing the hypotunuse ⊿ by 2
         distance = p/p**3
@@ -79,4 +79,18 @@ if __name__ =='__main__':
     except rospy.ROSInterruptException:
         pass
 
+#________________________________________________________________________________
+#Jenks Natural Breaks Optimization
+import pandas as pd
+import jenkspy
 
+grouping_ = {
+    "Data":[
+    1.0950000286102295, 1.0950000286102295, 1.1109999418258667, 1.1109999418258667, 1.1109999418258667, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1419999599456787, 1.1419999599456787, 1.1260000467300415, 1.0950000286102295, 1.0640000104904175, 1.0329999923706055, 1.0019999742507935, 0.9869999885559082, 0.9399999976158142, 0.9089999794960022, 0.9089999794960022, 0.925000011920929,1.2350000143051147, 1.25, 1.2660000324249268, 4.372000217437744, 4.309999942779541, 4.294000148773193, 2.430999994277954, 2.384000062942505, 2.36899995803833, 2.384000062942505, 2.4149999618530273, 2.384000062942505, 2.384000062942505, 2.305999994277954, 2.305999994277954, 2.259999990463257, 2.24399995803833, 6.5
+    ]
+}
+df = pd.DataFrame(grouping_)
+df.sort_values(by="Data")
+df["grouping"] = pd.qcut(df["Data"], q=12, labels=["Grouping1", "Grouping2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"])
+print(df)
+print(grouping_)
