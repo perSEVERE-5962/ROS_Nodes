@@ -32,6 +32,7 @@ def callback(msg):
     right_ranges = ranges[len(msg.ranges)-index_count:]
     left_ranges = ranges[:index_count]
     res_ranges = np.concatenate((right_ranges, left_ranges), -1)
+    res_ranges = res_ranges.tolist()
     #res_ranges = res_rantenate((right_ranges, left_ranges), -1)
     #res_ranges = res_ranges[~np.isnan(res_ranges)]
 
