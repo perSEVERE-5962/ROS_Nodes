@@ -82,12 +82,13 @@ def callback(msg):
            print("left")
         else:
             print("Middle")
+    getting_calculations()
         #return leftright, distance, ideal_distance - distance 
     msg.ranges = res_ranges
     #if right angle then
 callback()
-finding_pole()
-getting_calculations()
+#finding_pole()
+
 
 if cropped_pub:
     cropped_pub.publish(msg)
