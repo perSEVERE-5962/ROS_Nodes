@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 import rospy
 from sensor_msgs.msg import LaserScan
 import numpy as np
@@ -46,34 +46,43 @@ def callback(msg):
                 #   move.right() send command for robot to move, and will auto stop when i == 0 (position of pole?) 
 		
         #This is to get the pole points to pass into getting_calculations
+    new_res_ranges = [item for item in res_ranges if not(pd.isnull(item)) == True]
+    #print(res_ranges)
+    new_new_res_ranges = [*set(new_res_ranges)]
     grouping_ = {
-        "Data":[
-        res_ranges
-        ]
+        "Data":new_new_res_ranges
+        #[
+        #    1.0950000286102295, float('nan'), 1.0950000286102295, 1.1109999418258667, 1.1109999418258667, 1.1109999418258667, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1419999599456787, 1.1419999599456787, 1.1260000467300415, 1.0950000286102295, 1.0640000104904175, 1.0329999923706055, 1.0019999742507935, 0.9869999885559082, 0.9399999976158142, 0.9089999794960022, 0.9089999794960022, 0.925000011920929,1.2350000143051147, 1.25, 1.2660000324249268, 4.372000217437744, 4.309999942779541, 4.294000148773193, 2.430999994277954, 2.384000062942505, 2.36899995803833, 2.384000062942505, 2.4149999618530273, 2.384000062942505, 2.384000062942505, 2.305999994277954, 2.305999994277954, 2.259999990463257, 2.24399995803833, 6.5
+        #]
     }
+    #print(type(res_ranges))
+    #print(type([1.0950000286102295, float('nan'), 1.0950000286102295, 1.1109999418258667, 1.1109999418258667, 1.1109999418258667, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1419999599456787, 1.1419999599456787, 1.1260000467300415, 1.0950000286102295, 1.0640000104904175, 1.0329999923706055, 1.0019999742507935, 0.9869999885559082, 0.9399999976158142, 0.9089999794960022, 0.9089999794960022, 0.925000011920929,1.2350000143051147, 1.25, 1.2660000324249268, 4.372000217437744, 4.309999942779541, 4.294000148773193, 2.430999994277954, 2.384000062942505, 2.36899995803833, 2.384000062942505, 2.4149999618530273, 2.384000062942505, 2.384000062942505, 2.305999994277954, 2.305999994277954, 2.259999990463257, 2.24399995803833, 6.5]))
     df = pd.DataFrame(grouping_)
     df.sort_values(by="Data")
+    print(df["Data"])
     df["grouping"] = pd.qcut(df["Data"], q=12, labels=["Grouping1", "Grouping2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"])
-    if int(df["grouping"][0]) <= 4:
-        new_df = df[df["grouping"]=="Grouping1"]
-        print(new_df["Data"].mean())
-    
+    #print(int(float(df["grouping"][0])))
+    new_df = df[df["grouping"]=="Grouping1"]
+    if len(new_df) <= 4:   
+        new_df_mean = (new_df["Data"].mean())
+        print(new_df_mean)
+        middle_value = (len(new_df)-1)/2
+    else:
+        print("Grouping1 is greater than 4 floats")
+
 
     def getting_calculations():
         #get system to get point (p)
-        p = new_df["Data".mean()]
-        #Have yet to get p(pole)
-        leftright = p/2
+        #         #Have yet to get p(pole)
+        leftright = new_df_mean/2
         #leftright is the distance needed to square up to the pole, you get it by dividing the hypotunuse by 2
-        distance = p/p**3
+        distance = new_df_mean/new_df_mean**3
         ideal_distance = 1 #"placeholder for how far we would like the robot to move up towards the pole"
         leftright=leftright*39.3701
         distance=distance*39.3701
         #turning both value to inches for robot movement
-        x = new_df["Data"]
-
-        new_x = x.index()
-        y = len(res_ranges)
+        x = new_new_res_ranges.index(new_df["Data"].min()) 
+        y = len(new_new_res_ranges)
         first_calculations = x/y
         first_calculations*100
         if first_calculations > .50:
@@ -87,7 +96,6 @@ def callback(msg):
         #return leftright, distance, ideal_distance - distance 
     msg.ranges = res_ranges
     #if right angle then
-callback()
 #finding_pole()
 
 
