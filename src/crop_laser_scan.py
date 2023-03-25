@@ -5,8 +5,16 @@ import numpy as np
 from math import pi
 import pandas as pd
 import jenkspy
+from networktables import NetworkTables, NetworkTablesInstance
 
-ANGLE = pi/3 #originally 5 
+
+NetworkTables.initialize("10.0.0.107")
+
+table = NetworkTablesInstance.getDefault().getTable('crop laser scan table')
+
+
+
+ANGLE = pi/7 #originally 5 
 cropped_pub = None
 
 
@@ -60,38 +68,52 @@ def callback(msg):
     df = pd.DataFrame(grouping_)
     df.sort_values(by="Data")
     print(df["Data"])
-    df["grouping"] = pd.qcut(df["Data"], q=12, labels=["Grouping1", "Grouping2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"])
+    df["grouping"] = pd.qcut(df["Data"], q=6, labels=["Grouping1", "Grouping2", "Grouping3", "Grouping4", "Grouping5", "Grouping6"])
     #print(int(float(df["grouping"][0])))
-    new_df = df[df["grouping"]=="Grouping1"]
-    if len(new_df) <= 4:   
-        new_df_mean = (new_df["Data"].mean())
-        print(new_df_mean)
-        middle_value = (len(new_df)-1)/2
-    else:
-        print("Grouping1 is greater than 4 floats")
+    something = 1
+    for i in len(df["grouping"]):
+        string_numbers = str(something)
+        new_df = df[df["grouping"]=="Grouping"+string_numbers]
+        if len(new_df) <= 3:   
+            new_df_mean = (new_df["Data"].mean())
+            print(new_df_mean)
+            middle_value = (len(new_df)-1)/2
+        else:
+            print("Grouping1 is greater than 4 floats")
+            new_df["Data"] = float("nan")
+            int(string_numbers)+1
 
 
     def getting_calculations():
         #get system to get point (p)
         #         #Have yet to get p(pole)
-        leftright = new_df_mean/2
+        #leftright = new_df_mean/2
         #leftright is the distance needed to square up to the pole, you get it by dividing the hypotunuse by 2
-        distance = new_df_mean/new_df_mean**3
-        ideal_distance = 1 #"placeholder for how far we would like the robot to move up towards the pole"
-        leftright=leftright*39.3701
-        distance=distance*39.3701
+        #distance = new_df_mean/new_df_mean**3
+        #ideal_distance = 1 #"placeholder for how far we would like the robot to move up towards the pole"
+        #leftright=leftright*39.3701
+        #distance=distance*39.3701
         #turning both value to inches for robot movement
-        x = new_new_res_ranges.index(new_df["Data"].min()) 
-        y = len(new_new_res_ranges)
+        x = res_ranges.index(new_df["Data"].min()) 
+        print(x)
+        y = len(res_ranges)
+        print(y)
         first_calculations = x/y
         first_calculations*100
-        if first_calculations > .50:
-            distance_away = -x/2
+        if first_calculations > .60:
+            #distance_away = -x/2
+            table.putString("Move Direction:", "left") #was once right
+            print("left")
+            print(first_calculations)
+        elif first_calculations < .40:
+            table.putString("Move Direction:","right") #was once left
             print("right")
-        elif first_calculations < .50:
-           print("left")
-        else:
+            print(first_calculations)
+        elif first_calculations > .40 and first_calculations < .60:
+            print(first_calculations)
+            table.putString("More Direction:", "Middle")
             print("Middle")
+        print(len(new_df))
     getting_calculations()
         #return leftright, distance, ideal_distance - distance 
     msg.ranges = res_ranges
@@ -99,8 +121,8 @@ def callback(msg):
 #finding_pole()
 
 
-if cropped_pub:
-    cropped_pub.publish(msg)
+    if cropped_pub:
+        cropped_pub.publish(msg)
 
 if __name__ =='__main__':
     try:

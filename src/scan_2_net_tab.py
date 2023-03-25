@@ -48,7 +48,7 @@ def callback(msg):
     data += bytearray(struct.pack(">i", len(msg.intensities)))
     for intensity in msg.intensities:
         data += bytearray(struct.pack(">f", intensity))
-
+    
     #rospy.loginfo(data)
     table.putRaw("laser_scan", data)
 
