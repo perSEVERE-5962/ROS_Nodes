@@ -47,6 +47,9 @@ def callback(msg):
     for i in res_ranges:
         if i >= 0.9144:
             i = float("nan")
+    if cropped_pub:
+        msg.ranges = res_ranges
+        cropped_pub.publish(msg)
     #finding_pole(res_ranges)
                 #if i in right_ranges?
                 #move right until i = 0
@@ -65,28 +68,43 @@ def callback(msg):
     df = pd.DataFrame(grouping_)
     df.sort_values(by="Data")
     print(df["Data"])
-    df["grouping"] = pd.qcut(df["Data"], q=6, labels=["Grouping1", "Grouping2", "Grouping3", "Grouping4", "Grouping5", "Grouping6"])
+    labels=["Grouping1", "Grouping2", "Grouping3", "Grouping4", "Grouping5", "Grouping6", "Grouping7", "Grouping8", "Grouping9", "Grouping10"]
+    df["grouping"] = pd.qcut(df["Data"], q=len(labels), labels=labels)
     #print(int(float(df["grouping"][0])))
     something = 1
     pole_list = []
+    print("Here")
+    print(df["Grouping1"])
     for i in df["grouping"]:
+        print(len(res_ranges))
+        print("Here")
+        print(df["grouping"]=="Grouping1")
         #string_numbers = str(something)
-        if len(i) <= 3:   
+        if len(i) <= 7:   
             #new_df_mean = (new_df["Data"].mean())
             #print(new_df_mean)
             #middle_value = (len(new_df)-1)/2
             print("The Winner is " + i + " The mean is, " + i.mean())
             pole_list.append(i)
+            break
+            
         else:
             print("Grouping1 is greater than 4 floats")
+            print(len(i))
             #new_df["Data"] = float("nan")
             #string_numbers=int(string_numbers)+1
             print(i + " Has too many in a grouping")
+            something+1
+    if len(pole_list) == 0:
+        print("No pole found")
+        return
+    
             
 
 
     def getting_calculations():
-        x = res_ranges.index(pole_list.min()) 
+        print(pole_list)
+        x = res_ranges.index(min(pole_list))
         print(x)
         y = len(res_ranges)
         print(y)
@@ -108,13 +126,10 @@ def callback(msg):
         print(len(new_df))
     getting_calculations()
         #return leftright, distance, ideal_distance - distance 
-    msg.ranges = res_ranges
     #if right angle then
 #finding_pole()
 
 
-    if cropped_pub:
-        cropped_pub.publish(msg)
 
 if __name__ =='__main__':
     try:
