@@ -86,16 +86,7 @@ def callback(msg):
 
 
     def getting_calculations():
-        #get system to get point (p)
-        #         #Have yet to get p(pole)
-        #leftright = new_df_mean/2
-        #leftright is the distance needed to square up to the pole, you get it by dividing the hypotunuse by 2
-        #distance = new_df_mean/new_df_mean**3
-        #ideal_distance = 1 #"placeholder for how far we would like the robot to move up towards the pole"
-        #leftright=leftright*39.3701
-        #distance=distance*39.3701
-        #turning both value to inches for robot movement
-        x = res_ranges.index(new_df["Data"].min()) 
+        x = res_ranges.index(pole_list.min()) 
         print(x)
         y = len(res_ranges)
         print(y)
