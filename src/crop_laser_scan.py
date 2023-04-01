@@ -61,29 +61,34 @@ def callback(msg):
     #print(res_ranges)
     new_new_res_ranges = [*set(new_res_ranges)]
     grouping_ = {
-        "Data":new_new_res_ranges
+        "Data": new_res_ranges
     }
     #print(type(res_ranges))
     #print(type([1.0950000286102295, float('nan'), 1.0950000286102295, 1.1109999418258667, 1.1109999418258667, 1.1109999418258667, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1419999599456787, 1.1419999599456787, 1.1260000467300415, 1.0950000286102295, 1.0640000104904175, 1.0329999923706055, 1.0019999742507935, 0.9869999885559082, 0.9399999976158142, 0.9089999794960022, 0.9089999794960022, 0.925000011920929,1.2350000143051147, 1.25, 1.2660000324249268, 4.372000217437744, 4.309999942779541, 4.294000148773193, 2.430999994277954, 2.384000062942505, 2.36899995803833, 2.384000062942505, 2.4149999618530273, 2.384000062942505, 2.384000062942505, 2.305999994277954, 2.305999994277954, 2.259999990463257, 2.24399995803833, 6.5]))
     df = pd.DataFrame(grouping_)
     df.sort_values(by="Data")
-    labels=["Grouping1", "Grouping2", "Grouping3", "Grouping4", "Grouping5", "Grouping6", "Grouping7", "Grouping8", "Grouping9", "Grouping10"]
+    labels=["Grouping1", "Grouping2", "Grouping3", "Grouping4", "Grouping5", "Grouping6", "Grouping7", "Grouping8"]
     df["grouping"] = pd.qcut(df["Data"], q=len(labels), labels=labels)
-    #breaks = jenkspy.jenks_breaks(df["Data"], len(labels))
-    #print(breaks)
-    #print(int(float(df["grouping"][0])))
     random_list = []
-    print(new_new_res_ranges)
-    print (len(res_ranges))
-    print("Here")
     for i in df["grouping"]:
         new_df = df[df["grouping"]==i]
-        if len(new_df["Data"])<= 2:
+        print(i)
+        print(len(new_df["Data"]))
+        if len(new_df["Data"])<= 4:
             print("ok")
+            print(new_df["Data"])
             random_list.append(i)
+        
     #df.loc[df.loc["grouping"=="Grouping1"]:
     print("Here is the, \n")
     print(random_list)
+    new_random_list = []
+    for i in random_list:
+        new_random_list.append(int(i.replace("Grouping", "")))
+    random_string = "Grouping"+str(min(new_random_list))
+    xyz = df[df["grouping"]==random_string]
+    print(min(xyz["Data"]))
+    
         #string_numbers = str(something)
        # if len(i) <= 7:   
             #new_df_mean = (new_df["Data"].mean())
@@ -100,16 +105,15 @@ def callback(msg):
             #string_numbers=int(string_numbers)+1
            # print(i + " Has too many in a grouping")
             #something+1
-    if len(pole_list) == 0:
-        print("No pole found")
-        return
+    #if len(pole_list) == 0:
+        #print("No pole found")
+        #return
     
             
 
 
     def getting_calculations():
-        print(pole_list)
-        x = res_ranges.index(min(pole_list))
+        x = res_ranges.index(min(xyz["Data"]))
         print(x)
         y = len(res_ranges)
         print(y)
