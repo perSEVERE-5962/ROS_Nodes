@@ -73,13 +73,14 @@ def callback(msg):
     #print(breaks)
     #print(int(float(df["grouping"][0])))
     random_list = []
+    print(new_new_res_ranges)
+    print (len(res_ranges))
     print("Here")
     for i in df["grouping"]:
         new_df = df[df["grouping"]==i]
         if len(new_df["Data"])<= 2:
             print("ok")
-            print(new_df)
-            random_list.append(new_df)
+            random_list.append(i)
     #df.loc[df.loc["grouping"=="Grouping1"]:
     print("Here is the, \n")
     print(random_list)
