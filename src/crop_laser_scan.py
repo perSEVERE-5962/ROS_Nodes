@@ -6,50 +6,39 @@ from math import pi
 import pandas as pd
 import jenkspy
 from networktables import NetworkTables, NetworkTablesInstance
-
-
+import tkinter as tk
 NetworkTables.initialize("10.0.0.107")
 
 table = NetworkTablesInstance.getDefault().getTable('crop laser scan table')
-
-
-
+global intricate_switch
+root = tk.Tk()
+button = tk.Button(root, text="Switch", width=15, command=intricate_switch)
 ANGLE = pi/7 #originally 5 
 cropped_pub = None
-
-
-
-#def finding_pole(ranges):
-        
-        #first_calculations = z/y
-        #first_calculations * 100
-        #if first_calculations >= .30 and first_calculations <= .70:
-        #    if first_calculations > .50:
-         #       distance_away = -x/2
-          #      print("right")
-           # elif first_calculations < .50:
-            #    print("left")
-             #   distance_away = x/2
-            #else:
-             #   print("Middle")
 
 def callback(msg):
     HALF_ANGLE=ANGLE/2
     index_count = int(HALF_ANGLE//msg.angle_increment)
-    ranges = msg.ranges #Collective of all points
+    ranges = msg.ranges #Collective of all points0
     right_ranges = ranges[len(msg.ranges)-index_count:]
     left_ranges = ranges[:index_count]
-    res_ranges = np.concatenate((right_ranges, left_ranges), -1)
+    res_ranges = np.concatenate((left_ranges, right_ranges), -1)
     res_ranges = res_ranges.tolist()
     #res_ranges = res_rantenate((right_ranges, left_ranges), -1)
     #res_ranges = res_ranges[~np.isnan(res_ranges)]
-
     for i in res_ranges:
         if i >= 0.9144:
             i = float("nan")
     if cropped_pub:
         msg.ranges = res_ranges
         cropped_pub.publish(msg)
+    new_list=[]
+    def socahtoa():
+        pass
+        for i, z in enumerate(res_ranges):
+            something = msg.angle_increment+i
+            new_list.append(ANGLE+something)
+            
     #finding_pole(res_ranges)
                 #if i in right_ranges?
                 #move right until i = 0
@@ -88,30 +77,13 @@ def callback(msg):
     random_string = "Grouping"+str(min(new_random_list))
     xyz = df[df["grouping"]==random_string]
     print(min(xyz["Data"]))
-    
-        #string_numbers = str(something)
-       # if len(i) <= 7:   
-            #new_df_mean = (new_df["Data"].mean())
-            #print(new_df_mean)
-            #middle_value = (len(new_df)-1)/2
-         #   print("The Winner is " + i + " The mean is, " + i.mean())
-        #    pole_list.append(i)
-          #  break
-            
-        #else:
-         #   print("Grouping1 is greater than 4 floats")
-          #  print(len(i))
-            #new_df["Data"] = float("nan")
-            #string_numbers=int(string_numbers)+1
-           # print(i + " Has too many in a grouping")
-            #something+1
-    #if len(pole_list) == 0:
-        #print("No pole found")
-        #return
-    
-            
+    def intricate_switch():
+        if int(random_string) == 1:
+            int(random_string)==int(random_string)+1
+        elif int(random_string) == 2:
+            int(random_string)==int(random_string)-1
 
-
+        
     def getting_calculations():
         x = res_ranges.index(min(xyz["Data"]))
         print(x)
@@ -133,6 +105,7 @@ def callback(msg):
             table.putString("More Direction:", "Middle")
             print("Middle")
         print(len(new_df))
+        button.pack()
     getting_calculations()
         #return leftright, distance, ideal_distance - distance 
     #if right angle then
