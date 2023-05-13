@@ -36,7 +36,26 @@ def callback(msg):
     #print("largest distance: " + str(largest_val))
     #print("the index of ranges that it is located at: " + str(largest_idx))
 
-    a = ranges[0]
+    #find closest numerical datapoint to the first one
+    i = 0
+    while isnan(ranges[i]):
+        i += 1
+        if i >= len(ranges):
+            print("There is no numerical data")
+            break
+
+    a = ranges[i]
+    print("first numerical index: " + str(i))
+
+    i = len(ranges) - 1
+    while isnan(ranges[i]):
+        i -= 1
+        if i < 0:
+            print("There is no numerical data")
+            break
+    b = ranges[i]
+    print("last numerical index: " + str(i))
+
     b = ranges[len(ranges) - 1]
 
     if a < MAX_WALL_DIST and b < MAX_WALL_DIST:
