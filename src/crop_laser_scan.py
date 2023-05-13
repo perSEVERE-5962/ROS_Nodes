@@ -57,36 +57,35 @@ def callback(msg):
     print("last numerical index: " + str(i))
 
 
-    if a < MAX_WALL_DIST and b < MAX_WALL_DIST:
-        C = HALF_ANGLE * 2
+
+    C = HALF_ANGLE * 2
 
 
-        #calculate length of c using law of cosines
-        c = np.sqrt(np.square(a) + np.square(b) - (2 * a * b * np.cos(C)))
+    #calculate length of c using law of cosines
+    c = np.sqrt(np.square(a) + np.square(b) - (2 * a * b * np.cos(C)))
 
-        #calculate smaller angle
-        if a < b:
-            #calculate angle A
-            A = np.arcsin((a * np.sin(C)/c))
-            #calculate angle B
-            B = pi - A - C
-        else:
-            # calculate angle B
-            B = np.arcsin((b * np.sin(C) / c))
-            # calculate angle A
-            A = pi - B - C
-
-        #calculate distance to rotate to square up the robot
-        x = B - A
-
-        print("Left distance: " + str(a))
-        print("Right distance: " + str(b))
-        print("Distance between the points at which they hit the wall: " + str(c))
-        print("left distance to wall angle: " + str(B * 180 / pi))
-        print("right distance to wall angle: " + str(A * 180 / pi))
-        print("angle to rotate to robot to square it up: " + str(x * 180 / pi))
+    #calculate smaller angle
+    if a < b:
+        #calculate angle A
+        A = np.arcsin((a * np.sin(C)/c))
+        #calculate angle B
+        B = pi - A - C
     else:
-        print("The wall is not close enough")
+        # calculate angle B
+        B = np.arcsin((b * np.sin(C) / c))
+        # calculate angle A
+        A = pi - B - C
+
+    #calculate distance to rotate to square up the robot
+    x = B - A
+
+    print("Left distance: " + str(a))
+    print("Right distance: " + str(b))
+    print("Distance between the points at which they hit the wall: " + str(c))
+    print("left distance to wall angle: " + str(B * 180 / pi))
+    print("right distance to wall angle: " + str(A * 180 / pi))
+    print("angle to rotate to robot to square it up: " + str(x * 180 / pi))
+
 
 if __name__ =='__main__':
     try:
