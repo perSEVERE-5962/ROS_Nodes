@@ -13,7 +13,7 @@ def callback(msg):
     index_count = int(HALF_ANGLE//msg.angle_increment)
     #index_count = 3
     ranges = msg.ranges
-    #ranges = [2,3,4,5,3,2,3,2,1,7,8,5]
+    #ranges = [10,3,4,5,3,2,3,2,1,7,8,15]
     right_ranges = ranges[len(ranges)-index_count:]
     left_ranges = ranges[:index_count]
     res_ranges = np.concatenate((right_ranges, left_ranges), -1)
@@ -31,12 +31,38 @@ def callback(msg):
             largest_val = ranges[i]
             largest_idx = i
 
-    print("largest distance: " + str(largest_val))
-    print("the index of ranges that it is located at: " + str(largest_idx))
+    #print("largest distance: " + str(largest_val))
+    #print("the index of ranges that it is located at: " + str(largest_idx))
 
 
-msg = None
-callback(msg)
+    C = HALF_ANGLE * 2
+    a = ranges[0]
+    b = ranges[len(ranges) - 1]
+
+    #calculate length of c using law of cosines
+    c = np.sqrt(np.square(a) + np.square(b) - (2 * a * b * np.cos(C)))
+
+    #calculate smaller angle
+    if a < b:
+        #calculate angle A
+        A = np.arcsin((a * np.sin(C)/c))
+        #calculate angle B
+        B = pi - A - C
+    else:
+        # calculate angle B
+        B = np.arcsin((b * np.sin(C) / c))
+        # calculate angle A
+        A = pi - B - C
+
+    #calculate distance to rotate to square up the robot
+    x = B - A
+
+    print("Left distance: " + str(a))
+    print("Right distance: " + str(b))
+    print("Distance between the points at which they hit the wall: " + str(c))
+    print("left distance to wall angle: " + str(B * 180 / pi))
+    print("right distance to wall angle: " + str(A * 180 / pi))
+    print("angle to rotate to robot to square it up: " + str(x * 180 / pi))
 
 if __name__ =='__main__':
     try:
