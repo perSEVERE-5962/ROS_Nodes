@@ -56,7 +56,6 @@ def callback(msg):
     b = ranges[i]
     print("last numerical index: " + str(i))
 
-    b = ranges[len(ranges) - 1]
 
     if a < MAX_WALL_DIST and b < MAX_WALL_DIST:
         C = HALF_ANGLE * 2
