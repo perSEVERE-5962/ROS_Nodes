@@ -38,7 +38,7 @@ def callback(msg):
 
     #find closest numerical datapoint to the first one
     i = 0
-    while isnan(ranges[i]):
+    while np.isnan(ranges[i]):
         i += 1
         if i >= len(ranges):
             print("There is no numerical data")
@@ -48,7 +48,7 @@ def callback(msg):
     print("first numerical index: " + str(i))
 
     i = len(ranges) - 1
-    while isnan(ranges[i]):
+    while np.isnan(ranges[i]):
         i -= 1
         if i < 0:
             print("There is no numerical data")
