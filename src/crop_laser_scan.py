@@ -7,6 +7,7 @@ import pandas as pd
 import jenkspy
 from networktables import NetworkTables, NetworkTablesInstance
 import tkinter as tk
+from math import cos, tan
 NetworkTables.initialize("10.0.0.107")
 
 table = NetworkTablesInstance.getDefault().getTable('crop laser scan table')
@@ -32,13 +33,49 @@ def callback(msg):
     if cropped_pub:
         msg.ranges = res_ranges
         cropped_pub.publish(msg)
-    new_list=[]
-    def socahtoa():
-        pass
-        for i, z in enumerate(res_ranges):
-            something = msg.angle_increment+i
-            new_list.append(ANGLE+something)
-            
+
+    angle_increment = msg.angle_increment
+    angle = angle
+    new_list = []
+    for i,z in enumerate(res_ranges):
+        #new_list.append(x+angle_increment)
+        something = angle_increment*i
+        new_list.append(angle+something)
+    number = 0
+    first_new_list = []
+    second_new_list = []
+    for i in res_ranges:
+            y = cos(new_list[number])
+            answer = y*i
+            second_new_list.append(answer)
+            number+1
+    print(second_new_list)
+    new_number = 0
+    for i in res_ranges:
+        sine = sin(new_list[number])
+        new_answer = sine*i
+        first_new_list.append(new_answer)
+        new_number+1
+
+    import numpy as np
+    from sklearn.cluster import KMeans
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    kmeans = KMeans(n_clusters=4)
+    data = {
+        "x": first_new_list,
+        "y": second_new_list 
+    }
+
+    df = pd.DataFrame(data)
+    df["Specified_Category"] = kmeans.fit_predict(df)
+    df["Specified_Category"] = df["Specified_Category"].astype("category")
+    print(df)
+    plt.scatter(data["x"], data["y"])
+    plt.show()
+
+
+
     #finding_pole(res_ranges)
                 #if i in right_ranges?
                 #move right until i = 0
@@ -46,70 +83,7 @@ def callback(msg):
                 #   move.right() send command for robot to move, and will auto stop when i == 0 (position of pole?) 
 		
         #This is to get the pole points to pass into getting_calculations
-    new_res_ranges = [item for item in res_ranges if not(pd.isnull(item)) == True]
-    #print(res_ranges)
-    new_new_res_ranges = [*set(new_res_ranges)]
-    grouping_ = {
-        "Data": new_new_res_ranges
-    }
-    #print(type(res_ranges))
-    #print(type([1.0950000286102295, float('nan'), 1.0950000286102295, 1.1109999418258667, 1.1109999418258667, 1.1109999418258667, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1260000467300415, 1.1419999599456787, 1.1419999599456787, 1.1260000467300415, 1.0950000286102295, 1.0640000104904175, 1.0329999923706055, 1.0019999742507935, 0.9869999885559082, 0.9399999976158142, 0.9089999794960022, 0.9089999794960022, 0.925000011920929,1.2350000143051147, 1.25, 1.2660000324249268, 4.372000217437744, 4.309999942779541, 4.294000148773193, 2.430999994277954, 2.384000062942505, 2.36899995803833, 2.384000062942505, 2.4149999618530273, 2.384000062942505, 2.384000062942505, 2.305999994277954, 2.305999994277954, 2.259999990463257, 2.24399995803833, 6.5]))
-    df = pd.DataFrame(grouping_)
-    df.sort_values(by="Data")
-    labels=["Grouping1", "Grouping2", "Grouping3", "Grouping4", "Grouping5", "Grouping6", "Grouping7", "Grouping8"]
-    df["grouping"] = pd.qcut(df["Data"], q=len(labels), labels=labels)
-    random_list = []
-    for i in df["grouping"]:
-        new_df = df[df["grouping"]==i]
-        print(i)
-        print(len(new_df["Data"]))
-        if len(new_df["Data"])<= 4:
-            print("ok")
-            print(new_df["Data"])
-            random_list.append(i)
-        
-    #df.loc[df.loc["grouping"=="Grouping1"]:
-    print("Here is the, \n")
-    print(random_list)
-    new_random_list = []
-    for i in random_list:
-        new_random_list.append(int(i.replace("Grouping", "")))
-    random_string = "Grouping"+str(min(new_random_list))
-    xyz = df[df["grouping"]==random_string]
-    print(min(xyz["Data"]))
-    def intricate_switch():
-        if int(random_string) == 1:
-            int(random_string)==int(random_string)+1
-        elif int(random_string) == 2:
-            int(random_string)==int(random_string)-1
-
-        
-    def getting_calculations():
-        x = res_ranges.index(min(xyz["Data"]))
-        print(x)
-        y = len(res_ranges)
-        print(y)
-        first_calculations = x/y
-        first_calculations*100
-        if first_calculations > .60:
-            #distance_away = -x/2
-            table.putString("Move Direction:", "left") #was once right
-            print("left")
-            print(first_calculations)
-        elif first_calculations < .40:
-            table.putString("Move Direction:","right") #was once left
-            print("right")
-            print(first_calculations)
-        elif first_calculations > .40 and first_calculations < .60:
-            print(first_calculations)
-            table.putString("More Direction:", "Middle")
-            print("Middle")
-        print(len(new_df))
-        button.pack()
-    getting_calculations()
-        #return leftright, distance, ideal_distance - distance 
-    #if right angle then
-#finding_pole()
+    
 
 
 
