@@ -17,7 +17,7 @@ def callback(msg):
     right_ranges = ranges[len(ranges)-index_count:]
     left_ranges = ranges[:index_count]
     res_ranges = np.concatenate((right_ranges, left_ranges), -1)
-    #res_ranges = res_ranges[~np.isnan(res_ranges)]
+    res_ranges = res_ranges[~np.isnan(res_ranges)]
     msg.ranges = res_ranges
 
     if cropped_pub:
