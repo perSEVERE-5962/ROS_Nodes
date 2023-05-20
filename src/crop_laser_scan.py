@@ -29,15 +29,27 @@ def callback(msg):
     print("index increment: " + str(msg.angle_increment))
     print("index number: " + str(len(ranges) - 1))
     print("total angle: " + str(ANGLE))
-    calc_increment = ANGLE/(len(ranges) - 1)
-    print("calculated index increment: " + str(calc_increment))
+
+    #get the exact angle increment after cropping
+    real_increment = ANGLE/(len(ranges) - 1)
+    print("calculated index increment: " + str(real_increment))
 
 
 
     print(ranges)
 
+    vectors = []
     for i in range(len(ranges)):
-        print("index: " + str(i) + " value: " + str(ranges[i]) + "angle: " + str(calc_increment * i))
+        print("index: " + str(i) + " value: " + str(ranges[i]) + " angle: " + str(real_increment * i))
+        angle = real_increment * i
+
+        #convert to (x, y)
+        x = np.cos(angle * ranges[i])
+        y = np.sin(angle * ranges[i])
+        vector = [x, y]
+        vectors[i] = vector
+        print("index: " + str(i) + " x: " + str(vectors[i][0]) + " y: " + str(vectors[i][1]))
+
 
 
 
