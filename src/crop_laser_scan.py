@@ -91,8 +91,7 @@ def callback(msg):
     print("right distance to wall angle: " + str(A * 180 / pi))
     print("angle to rotate to robot to square it up: " + str(x * 180 / pi))
 
-message = None
-callback(message)
+
 
 '''
 if __name__ =='__main__':
