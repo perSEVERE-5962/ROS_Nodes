@@ -36,7 +36,7 @@ def callback(msg):
     print("index increment: " + str(msg.angle_increment))
     print("index number: " + str(len(ranges) - 1))
     print("total angle: " + str(ANGLE))
-    print("calculated index increment: " + str((ANGLE/len(ranges)) - 1))
+    print("calculated index increment: " + str(ANGLE/(len(ranges) - 1)))
     print("largest distance: " + str(largest_val))
     print("the index of ranges that it is located at: " + str(largest_idx))
     print(ranges)
