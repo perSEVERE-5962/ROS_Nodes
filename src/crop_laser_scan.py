@@ -42,7 +42,7 @@ def callback(msg):
 
     vectors = [0]*len(ranges)
     for i in range(len(ranges)):
-        angle = ANGLE - (real_increment * i - HALF_ANGLE + (np.pi/2))
+        angle = (ANGLE - real_increment * i) - HALF_ANGLE + (np.pi/2)
 
         print("index: " + str(i) + " value: " + str(ranges[i]) + " angle: " + str(angle))
 
