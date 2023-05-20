@@ -38,10 +38,12 @@ def callback(msg):
 
     print(ranges)
 
+    
+
     vectors = [0]*len(ranges)
     for i in range(len(ranges)):
         print("index: " + str(i) + " value: " + str(ranges[i]) + " angle: " + str(real_increment * i))
-        angle = real_increment * i
+        angle = real_increment * i - HALF_ANGLE
 
         #convert to (x, y)
         x = np.cos(angle) * ranges[i]
