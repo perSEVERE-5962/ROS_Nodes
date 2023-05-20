@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
-import rospy
-from sensor_msgs.msg import LaserScan
+#import rospy
+#from sensor_msgs.msg import LaserScan
 import numpy as np
 from math import pi
 
@@ -14,7 +14,7 @@ def callback(msg):
     index_count = int(HALF_ANGLE//msg.angle_increment)
     #index_count = 3
     ranges = msg.ranges
-    #ranges = [10,3,4,5,3,2,3,2,1,7,8,15]
+    ranges = [10,3,4,5,3,2,3,2,1,7,8,15]
     right_ranges = ranges[len(ranges)-index_count:]
     left_ranges = ranges[:index_count]
     res_ranges = np.concatenate((right_ranges, left_ranges), -1)
@@ -33,8 +33,13 @@ def callback(msg):
             largest_val = ranges[i]
             largest_idx = i
 
-    #print("largest distance: " + str(largest_val))
-    #print("the index of ranges that it is located at: " + str(largest_idx))
+    print("index increment: " + str(msg.angle_increment))
+    print("index number: " + str(len(ranges) - 1))
+    print("total angle: " + str(ANGLE))
+    print("calculated index increment: " + str(ANGLE/len(ranges) - 1))
+    print("largest distance: " + str(largest_val))
+    print("the index of ranges that it is located at: " + str(largest_idx))
+    print(ranges)
 
     #find closest numerical datapoint to the first one
     i = 0
@@ -86,7 +91,10 @@ def callback(msg):
     print("right distance to wall angle: " + str(A * 180 / pi))
     print("angle to rotate to robot to square it up: " + str(x * 180 / pi))
 
+message = None
+callback(message)
 
+'''
 if __name__ =='__main__':
     try:
         rospy.init_node('crop_laser_scan')
@@ -100,3 +108,4 @@ if __name__ =='__main__':
         pass
 
 
+'''
