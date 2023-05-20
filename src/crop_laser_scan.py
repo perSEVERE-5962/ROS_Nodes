@@ -93,7 +93,7 @@ def callback(msg):
 
 
 
-'''
+
 if __name__ =='__main__':
     try:
         rospy.init_node('crop_laser_scan')
@@ -107,4 +107,3 @@ if __name__ =='__main__':
         pass
 
 
-'''
