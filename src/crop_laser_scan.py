@@ -29,14 +29,15 @@ def callback(msg):
     print("index increment: " + str(msg.angle_increment))
     print("index number: " + str(len(ranges) - 1))
     print("total angle: " + str(ANGLE))
-    print("calculated index increment: " + str(ANGLE/(len(ranges) - 1)))
+    calc_increment = ANGLE/(len(ranges) - 1)
+    print("calculated index increment: " + str(calc_increment))
 
 
 
     print(ranges)
 
     for i in range(len(ranges)):
-        print("index: " + str(i) + " value: " + str(ranges[i]) + "angle: " + str(msg.angle_increment * i))
+        print("index: " + str(i) + " value: " + str(ranges[i]) + "angle: " + str(calc_increment * i))
 
 
 
