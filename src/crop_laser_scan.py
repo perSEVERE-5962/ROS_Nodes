@@ -73,6 +73,12 @@ def callback(msg):
     print("intercept: " + str(model.intercept_))
     print("slope: " + str(model.coef_))
 
+    slope = model.coef_
+    line_angle = np.arctan(slope)
+
+    angle_to_move = -line_angle
+    print("angle to move the robot: " + str(angle_to_move))
+
 
     #find closest numerical datapoint to the first one
     i = 0
