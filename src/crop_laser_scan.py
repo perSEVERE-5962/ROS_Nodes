@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
-#import rospy
-#from sensor_msgs.msg import LaserScan
+import rospy
+from sensor_msgs.msg import LaserScan
 import numpy as np
 from math import pi
 
