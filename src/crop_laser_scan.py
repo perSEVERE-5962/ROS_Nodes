@@ -35,7 +35,7 @@ def callback(msg):
 
     print(ranges)
 
-    for i in len(ranges) - 1:
+    for i in range(len(ranges)):
         print("index: " + str(i) + " value: " + str(ranges[i]) + "angle: " + str(msg.angle_increment * i))
 
 
