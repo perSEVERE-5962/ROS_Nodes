@@ -38,7 +38,7 @@ def callback(msg):
 
     print(ranges)
 
-    vectors = [[]]
+    vectors = [0]*len(ranges)
     for i in range(len(ranges)):
         print("index: " + str(i) + " value: " + str(ranges[i]) + " angle: " + str(real_increment * i))
         angle = real_increment * i
