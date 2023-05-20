@@ -3,6 +3,7 @@ import rospy
 from sensor_msgs.msg import LaserScan
 import numpy as np
 from math import pi
+from sklearn.linear_model import LinearRegression
 
 ANGLE = pi/4
 MAX_WALL_DIST = 1
@@ -41,6 +42,8 @@ def callback(msg):
 
 
     vectors = [0]*len(ranges)
+    vector_x = [0]*len(ranges)
+    vector_y = [0]*len(ranges)
     for i in range(len(ranges)):
         angle = (ANGLE - real_increment * i) - HALF_ANGLE + (np.pi/2)
 
@@ -50,10 +53,23 @@ def callback(msg):
         #convert to (x, y)
         x = np.cos(angle) * ranges[i]
         y = np.sin(angle) * ranges[i]
-        vectors[i] = [x, y]
-        print("index: " + str(i) + " x: " + str(vectors[i][0]) + " y: " + str(vectors[i][1]))
+        vector_x[i] = x
+        vector_y[i] = y
+        print("index: " + str(i) + " x: " + str(vector_x[i]) + " y: " + str(vector_y[i]))
 
+    #linear regression
+    array_x = np.asarray(vector_x).reshape((-1, 1))
+    array_y = np.asarray(vector_y)
 
+    model = LinearRegression()
+
+    model.fit(array_x, array_y)
+
+    r_sq = model.score(array_x, array_y)
+    print("linear regression complete")
+    print("coefficient of determination: " + str(r_sq))
+    print("intercept: " + str(model.intercept_))
+    print("slope: " + str(model.coef_))
 
 
     #find closest numerical datapoint to the first one
