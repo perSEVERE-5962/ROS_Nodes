@@ -35,9 +35,9 @@ def callback(msg):
 
     print(ranges)
 
-    for i in ranges:
+    for i in len(ranges) - 1:
         print("index: " + str(i) + " value: " + str(ranges[i]) + "angle: " + str(msg.angle_increment * i))
-    
+
 
 
     #find closest numerical datapoint to the first one
