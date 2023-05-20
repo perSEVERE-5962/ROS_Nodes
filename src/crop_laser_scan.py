@@ -5,7 +5,9 @@ import numpy as np
 from math import pi
 from sklearn.linear_model import LinearRegression
 
-ANGLE = pi/4
+ANGLE = input("Enter the desired field of view, in radians: ")
+
+#ANGLE = pi/4
 LEN_MAX = 100
 cropped_pub = None
 
