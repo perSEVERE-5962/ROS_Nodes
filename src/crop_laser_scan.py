@@ -26,21 +26,19 @@ def callback(msg):
     if cropped_pub:
         cropped_pub.publish(msg)
 
-    #find largest element
-    largest_val = 0
-    largest_idx = 0
-    for i in range(0, len(ranges) - 1):
-        if ranges[i] > largest_val:
-            largest_val = ranges[i]
-            largest_idx = i
-
     print("index increment: " + str(msg.angle_increment))
     print("index number: " + str(len(ranges) - 1))
     print("total angle: " + str(ANGLE))
     print("calculated index increment: " + str(ANGLE/(len(ranges) - 1)))
-    print("largest distance: " + str(largest_val))
-    print("the index of ranges that it is located at: " + str(largest_idx))
+
+
+
     print(ranges)
+
+    for i in ranges:
+        print("index: " + str(i) + " value: " + str(ranges[i]) + "angle: " + str(msg.angle_increment * i))
+    
+
 
     #find closest numerical datapoint to the first one
     i = 0
