@@ -77,7 +77,7 @@ def callback(msg):
     line_angle = np.arctan(slope)
 
     angle_to_move = -line_angle
-    print("angle to move the robot: " + str(angle_to_move))
+    print("angle to move the robot (in degrees): " + str(angle_to_move*180/pi))
 
 
     #find closest numerical datapoint to the first one
