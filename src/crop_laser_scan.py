@@ -21,6 +21,7 @@ def callback(msg):
 
     #res_ranges = res_ranges[~np.isnan(res_ranges)]
     msg.ranges = res_ranges
+    ranges = res_ranges
 
     if cropped_pub:
         cropped_pub.publish(msg)
