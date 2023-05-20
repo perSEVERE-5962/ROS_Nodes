@@ -6,7 +6,7 @@ from math import pi
 from sklearn.linear_model import LinearRegression
 
 ANGLE = pi/4
-MAX_WALL_DIST = 1
+LEN_MAX = 100
 cropped_pub = None
 
 
@@ -41,10 +41,12 @@ def callback(msg):
 
 
 
-    vectors = [0]*len(ranges)
     vector_x = [0]*len(ranges)
     vector_y = [0]*len(ranges)
     for i in range(len(ranges)):
+        if np.isnan(ranges[i]):
+            ranges[i] = LEN_MAX
+            continue
         angle = (ANGLE - real_increment * i) - HALF_ANGLE + (np.pi/2)
 
         print("index: " + str(i) + " value: " + str(ranges[i]) + " angle: " + str(angle))
