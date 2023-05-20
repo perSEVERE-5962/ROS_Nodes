@@ -14,7 +14,7 @@ def callback(msg):
     index_count = int(HALF_ANGLE//msg.angle_increment)
     #index_count = 3
     ranges = msg.ranges
-    ranges = [10,3,4,5,3,2,3,2,1,7,8,15]
+    #ranges = [10,3,4,5,3,2,3,2,1,7,8,15]
     right_ranges = ranges[len(ranges)-index_count:]
     left_ranges = ranges[:index_count]
     res_ranges = np.concatenate((right_ranges, left_ranges), -1)
