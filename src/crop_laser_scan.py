@@ -46,8 +46,7 @@ def callback(msg):
         #convert to (x, y)
         x = np.cos(angle * ranges[i])
         y = np.sin(angle * ranges[i])
-        vector = [x, y]
-        vectors[i] = vector
+        vectors[i] = [x, y]
         print("index: " + str(i) + " x: " + str(vectors[i][0]) + " y: " + str(vectors[i][1]))
 
 
