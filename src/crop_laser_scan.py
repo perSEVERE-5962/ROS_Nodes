@@ -44,8 +44,8 @@ def callback(msg):
         angle = real_increment * i
 
         #convert to (x, y)
-        x = np.cos(angle * ranges[i])
-        y = np.sin(angle * ranges[i])
+        x = np.cos(angle) * ranges[i]
+        y = np.sin(angle) * ranges[i]
         vectors[i] = [x, y]
         print("index: " + str(i) + " x: " + str(vectors[i][0]) + " y: " + str(vectors[i][1]))
 
