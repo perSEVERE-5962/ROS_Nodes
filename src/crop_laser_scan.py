@@ -47,7 +47,7 @@ def callback(msg):
         if np.isnan(ranges[i]):
             ranges[i] = LEN_MAX
             continue
-        angle = (ANGLE - real_increment * i) - HALF_ANGLE + (np.pi/2)
+        angle = (real_increment * i) - HALF_ANGLE + (np.pi/2)
 
         print("index: " + str(i) + " value: " + str(ranges[i]) + " angle: " + str(angle))
 
