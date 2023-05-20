@@ -71,9 +71,11 @@ def callback(msg):
     print("linear regression complete")
     print("coefficient of determination: " + str(r_sq))
     print("intercept: " + str(model.intercept_))
-    print("slope: " + str(model.coef_))
 
-    slope = model.coef_
+    slope = model.coef_[0]
+
+    print("slope: " + str(slope))
+
     line_angle = np.arctan(slope)
 
     angle_to_move = -line_angle
