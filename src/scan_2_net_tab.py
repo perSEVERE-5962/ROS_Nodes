@@ -46,7 +46,7 @@ if __name__ =='__main__':
     try:
         rospy.init_node('scan_2_net_tab')
 
-        rospy.Subscriber('/scan_cropped', LaserScan, callback)
+        rospy.Subscriber('/scan', LaserScan, callback)
 
         rospy.spin()
 
