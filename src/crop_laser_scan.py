@@ -22,11 +22,12 @@ while True:
     angle_increment = table.getNumber("angle_increment", 1)
 
     #get ranges
-    ranges = table.getNumberArray("ranges", [0])
-    
-    if len(ranges) < 1:
+    ranges = table.getNumberArray("ranges", 0)
+
+    if ranges == 0:
         print("no data for ranges")
-        return
+        continue
+    ranges = list(ranges)
 
     HALF_ANGLE=ANGLE/2
     index_count = int(HALF_ANGLE//angle_increment)
