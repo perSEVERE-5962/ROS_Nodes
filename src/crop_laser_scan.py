@@ -9,8 +9,7 @@ import threading
 from networktables import NetworkTables, NetworkTablesInstance
 import sys
 
-NetworkTables.initialize('10.248.233.247')
-table = NetworkTables.getDefault().getTable('laser_scan')
+
 
 ANGLE = pi/4
 LEN_MAX = 100

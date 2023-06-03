@@ -5,7 +5,8 @@ import threading
 from networktables import NetworkTables, NetworkTablesInstance
 import sys
 
-
+NetworkTables.initialize('10.248.233.247')
+table = NetworkTables.getDefault().getTable('laser_scan')
 #laser_scan_topic = table.getEntry('laser_scan')
 
 
