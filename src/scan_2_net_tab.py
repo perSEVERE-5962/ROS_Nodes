@@ -1,11 +1,8 @@
 #!/usr/bin/env python2
 import rospy
 from sensor_msgs.msg import LaserScan
-import numpy as np
-from math import pi
 import threading
 from networktables import NetworkTables, NetworkTablesInstance
-import struct
 import sys
 
 print(sys.byteorder)
@@ -19,7 +16,7 @@ def connectionListener(connected, info):
         notified[0] = True
         cond.notify()
 
-NetworkTables.initialize("10.0.0.107")
+NetworkTables.initialize("10.248.233.247")
 NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
 
 with cond:
@@ -28,11 +25,11 @@ with cond:
         cond.wait()
 
 print("Connected!")
-table = NetworkTablesInstance.getDefault().getTable('roscore')
+table = NetworkTablesInstance.getDefault().getTable('laser_scan')
 #laser_scan_topic = table.getEntry('laser_scan')
 
 def callback(msg):
-    print(msg.angle_min)
+    '''print(msg.angle_min)
     print(msg.angle_max)
     data = bytearray(struct.pack(">f", np.float64(msg.angle_min)))
     data += bytearray(struct.pack(">f", np.float64(msg.angle_max)))
@@ -50,7 +47,19 @@ def callback(msg):
         data += bytearray(struct.pack(">f", intensity))
 
     #rospy.loginfo(data)
-    table.putRaw("laser_scan", data)
+    table.putRaw("laser_scan", data)'''
+
+    angle_increment = msg.angle_increment
+    table.putNumber("angle_increment", angle_increment)
+
+    ranges = msg.ranges
+    table.putNumberArray("ranges", ranges)
+
+    #get angle to move
+
+    angle_to_move = table.getNumber("angle_to_move", "[none returned]")
+    print("angle to move: " + str(angle_to_move))
+
 
 if __name__ =='__main__':
     try:
