@@ -5,6 +5,9 @@ import numpy as np
 from math import pi
 from sklearn.linear_model import LinearRegression
 from networktables import NetworkTables, NetworkTablesInstance
+import threading
+from networktables import NetworkTables, NetworkTablesInstance
+import sys
 
 NetworkTables.initialize('10.248.233.247')
 table = NetworkTables.getDefault().getTable('laser_scan')
@@ -12,6 +15,31 @@ table = NetworkTables.getDefault().getTable('laser_scan')
 ANGLE = pi/4
 LEN_MAX = 100
 cropped_pub = None
+
+print(sys.byteorder)
+
+cond = threading.Condition()
+notified = [False]
+
+def connectionListener(connected, info):
+    print(info, '; Connected=%s' % connected)
+    with cond:
+        notified[0] = True
+        cond.notify()
+
+NetworkTables.initialize("10.248.233.247")
+
+
+NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
+
+with cond:
+    print("Waiting")
+    if not notified[0]:
+        cond.wait()
+
+print("Connected!")
+
+table = NetworkTablesInstance.getDefault().getTable('laser_scan')
 
 
 while True:
