@@ -18,7 +18,7 @@ def connectionListener(connected, info):
 
 NetworkTables.initialize("10.248.233.247")
 
-'''
+
 NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
 
 with cond:
@@ -29,7 +29,7 @@ with cond:
 print("Connected!")
 table = NetworkTablesInstance.getDefault().getTable('laser_scan')
 #laser_scan_topic = table.getEntry('laser_scan')
-'''
+
 
 def callback(msg):
     '''print(msg.angle_min)
