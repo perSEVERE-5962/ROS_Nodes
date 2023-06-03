@@ -23,6 +23,10 @@ while True:
 
     #get ranges
     ranges = table.getNumberArray("ranges", [0])
+    
+    if len(ranges) < 1:
+        print("no data for ranges")
+        return
 
     HALF_ANGLE=ANGLE/2
     index_count = int(HALF_ANGLE//angle_increment)
