@@ -2,15 +2,29 @@ import numpy as np
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
+import random
 kmeans = KMeans(n_clusters=4)
+x = []
+y = []
+for i in range(100):
+    x.append(random.randint(0, 20))
+    y.append(random.randint(0, 22))
 data = {
-    "x": [1, 4, 5, 6, 7, 8], #Switch this to First New List
-    "y": [4, 6, 8, 1, 2, 4] #Switch this to Second New List
+    "x": x, #Switch this to First New List
+    "y": y#Switch this to Second New List
 }
-
+color = []
 df = pd.DataFrame(data)
 df["Specified_Category"] = kmeans.fit_predict(df)
 df["Specified_Category"] = df["Specified_Category"].astype("category")
 print(df)
-plt.scatter(data["x"], data["y"])
+for i in df["Specified_Category"]:
+    print(i)
+    if i == 0:color.append("red")
+    elif i == 1:color.append("blue")
+    elif i == 2:color.append("green")
+    elif i == 3:color.append("black")
+plt.scatter(data["x"], data["y"], c=color)
 plt.show()
+

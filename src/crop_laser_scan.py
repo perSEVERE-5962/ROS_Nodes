@@ -66,13 +66,21 @@ def callback(msg):
         "x": first_new_list,
         "y": second_new_list 
     }
-
+    color = []
     df = pd.DataFrame(data)
     df["Specified_Category"] = kmeans.fit_predict(df)
     df["Specified_Category"] = df["Specified_Category"].astype("category")
     print(df)
-    plt.scatter(data["x"], data["y"])
+    for i in df["Specified_Category"]:
+        print(i)
+        if i == 0:color.append("red")
+        elif i == 1:color.append("blue")
+        elif i == 2:color.append("green")
+        elif i == 3:color.append("black")
+    plt.scatter(data["x"], data["y"], c=color)
     plt.show()
+    
+
 
 
 
