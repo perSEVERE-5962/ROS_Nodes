@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 import rospy
+import numpy as np
 from sensor_msgs.msg import LaserScan
 import threading
 from networktables import NetworkTables, NetworkTablesInstance
@@ -7,6 +8,11 @@ from math import pi
 import sys
 
 NetworkTables.initialize('192.168.1.98')
+
+
+ANGLE = pi/4
+LEN_MAX = 100
+cropped_pub = None
 
 
 table = NetworkTablesInstance.getDefault().getTable('laser_scan')
@@ -39,6 +45,17 @@ def callback(msg):
     table.putNumber("angle_increment", angle_increment)
 
     ranges = msg.ranges
+
+    #crop ranges
+
+    HALF_ANGLE = ANGLE / 2
+    index_count = int(HALF_ANGLE // angle_increment)
+
+    right_ranges = ranges[len(ranges) - index_count:]
+    left_ranges = ranges[:index_count]
+    res_ranges = np.concatenate((right_ranges, left_ranges), -1)
+
+    ranges = res_ranges
     table.putNumberArray("ranges", ranges)
     print(ranges)
 
@@ -53,6 +70,8 @@ if __name__ =='__main__':
         rospy.init_node('scan_2_net_tab')
 
         rospy.Subscriber('/scan', LaserScan, callback)
+        cropped_pub = rospy.Publisher('/scan_cropped', LaserScan, 1)
+
 
         rospy.spin()
 
