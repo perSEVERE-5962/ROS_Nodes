@@ -6,7 +6,7 @@ from networktables import NetworkTables, NetworkTablesInstance
 import sys
 
 NetworkTables.initialize('192.168.1.98')
-
+'''
 print(sys.byteorder)
 
 cond = threading.Condition()
@@ -28,7 +28,7 @@ with cond:
     if not notified[0]:
         cond.wait()
 
-print("Connected!")
+print("Connected!")'''
 
 table = NetworkTablesInstance.getDefault().getTable('laser_scan')
 
