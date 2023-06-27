@@ -61,6 +61,7 @@ def callback(msg):
 
     ranges = msg.ranges
     table.putNumberArray("ranges", ranges)
+    print(ranges)
 
     #get angle to move
 
