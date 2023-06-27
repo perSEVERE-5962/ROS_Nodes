@@ -24,6 +24,7 @@ while True:
 
     #get angle_increment
     angle_increment = table.getNumber("angle_increment", 1)
+    print(angle_increment)
 
     #get ranges
     ranges = table.getNumberArray("ranges", 0)
@@ -33,7 +34,7 @@ while True:
         continue
     ranges = list(ranges)
 
-    HALF_ANGLE=ANGLE/2
+    HALF_ANGLE = ANGLE/2
     index_count = int(HALF_ANGLE//angle_increment)
     #index_count = 3
     #ranges = [10,3,4,5,3,2,3,2,1,7,8,15]
