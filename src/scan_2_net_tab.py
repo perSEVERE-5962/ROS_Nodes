@@ -3,6 +3,7 @@ import rospy
 from sensor_msgs.msg import LaserScan
 import threading
 from networktables import NetworkTables, NetworkTablesInstance
+from math import pi
 import sys
 
 NetworkTables.initialize('192.168.1.98')
@@ -44,7 +45,7 @@ def callback(msg):
     #get angle to move
 
     angle_to_move = table.getNumber("angle_to_move", "[none returned]")
-    print("angle to move: " + str(angle_to_move))
+    print("angle to move: " + str(angle_to_move*180/pi))
 
 
 if __name__ =='__main__':
