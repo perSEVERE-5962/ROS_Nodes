@@ -62,19 +62,11 @@ def callback(msg):
     #get angle to move
 
     angle_to_move = table.getNumber("angle_to_move", "[none returned]")
-    print("angle to move: " + str(angle_to_move*180/pi))
+    print("angle to move: ")
+    print(angle_to_move*180/pi)
 
 
 if __name__ =='__main__':
-    try:
-        rospy.init_node('scan_2_net_tab')
-
-        rospy.Subscriber('/scan', LaserScan, callback)
-        rospy.spin()
-
-    except rospy.ROSInterruptException:
-        pass
-
     try:
         rospy.init_node('scan_2_net_tab')
 
@@ -83,5 +75,7 @@ if __name__ =='__main__':
 
     except rospy.ROSInterruptException:
         pass
+
+
 
 
