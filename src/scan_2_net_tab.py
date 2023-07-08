@@ -17,7 +17,7 @@ cropped_pub = None
 
 table = NetworkTablesInstance.getDefault().getTable('laser_scan')
 
-#laser_scan_topic = table.getEntry('laser_scan')
+# laser_scan_topic = table.getEntry('laser_scan')
 
 
 def callback(msg):
@@ -70,9 +70,15 @@ if __name__ =='__main__':
         rospy.init_node('scan_2_net_tab')
 
         rospy.Subscriber('/scan', LaserScan, callback)
-        cropped_pub = rospy.Publisher('/scan_cropped', LaserScan, 1)
+        rospy.spin()
 
+    except rospy.ROSInterruptException:
+        pass
 
+    try:
+        rospy.init_node('scan_2_net_tab')
+
+        rospy.Subscriber('/scan_cropped', LaserScan, callback)
         rospy.spin()
 
     except rospy.ROSInterruptException:
