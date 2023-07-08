@@ -70,7 +70,8 @@ if __name__ =='__main__':
     try:
         rospy.init_node('scan_2_net_tab')
 
-        rospy.Subscriber('/scan_cropped', LaserScan, callback)
+        rospy.Subscriber('/scan', LaserScan, callback)
+        cropped_pub = rospy.Publisher('/scan_cropped', LaserScan, 1)
         rospy.spin()
 
     except rospy.ROSInterruptException:
