@@ -75,7 +75,7 @@ def callback(msg):
         print(str(angle_to_move*(180/pi)))
 
 def publish():
-    pub = rospy.Publisher('/scan_cropped', String, 1)
+    pub = rospy.Publisher('/scan_cropped', LaserScan, 1)
     rospy.init_node('scan_2_net_tab')
     rate = rospy.Rate(10)  # 10hz
     while not rospy.is_shutdown():
