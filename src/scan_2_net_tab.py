@@ -19,7 +19,7 @@ cropped_pub = None
 table = NetworkTablesInstance.getDefault().getTable('laser_scan')
 
 rospy.init_node('scan_2_net_tab')
-pub = rospy.Publisher('/scan_cropped', LaserScan, 1)
+pub = rospy.Publisher('/scan_cropped', LaserScan, queue_size=10)
 laser_scan = LaserScan()
 
 # laser_scan_topic = table.getEntry('laser_scan')
@@ -82,29 +82,13 @@ def callback(msg):
     laser_scan.angle_max = HALF_ANGLE
     laser_scan.angle_increment = angle_increment
     laser_scan.time_increment = 4.99999987369e-05
-    laser_scan.range_min = 0.0001
+    laser_scan.range_min = 0.00000001
     laser_scan.range_max = 32.0
     laser_scan.ranges = ranges
     print(laser_scan)
 
     pub.publish(laser_scan)
 
-'''
-def publish():
-    rospy.init_node('scan_2_net_tab')
-    rate = rospy.Rate(10)  # 10hz
-    while not rospy.is_shutdown():
-        data = publish_data
-        rospy.loginfo(data)
-        pub.publish(["header": "scan_cropped", ])
-        rate.sleep()
-
-if __name__ == '__main__':
-    try:
-        publish()
-    except rospy.ROSInterruptException:
-        pass
-'''
 
 
 
