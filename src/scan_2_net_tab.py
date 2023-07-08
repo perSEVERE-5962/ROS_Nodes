@@ -17,7 +17,7 @@ cropped_pub = None
 
 table = NetworkTablesInstance.getDefault().getTable('laser_scan')
 
-publish_data = np.array()
+publish_data = np.array(None)
 
 # laser_scan_topic = table.getEntry('laser_scan')
 
