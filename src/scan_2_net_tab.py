@@ -18,6 +18,7 @@ cropped_pub = None
 
 table = NetworkTablesInstance.getDefault().getTable('laser_scan')
 
+rospy.init_node('scan_2_net_tab')
 pub = rospy.Publisher('/scan_cropped', LaserScan, 1)
 laser_scan = LaserScan()
 
@@ -85,6 +86,7 @@ def callback(msg):
     laser_scan.range_max = 32.0
     laser_scan.ranges = ranges
     print(laser_scan)
+
     pub.publish(laser_scan)
 
 '''
