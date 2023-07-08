@@ -61,8 +61,6 @@ def callback(msg):
 
     ranges = res_ranges
 
-    global publish_data
-    publish_data = res_ranges
     table.putNumberArray("ranges", ranges)
     print(ranges)
 
@@ -79,14 +77,14 @@ def callback(msg):
     current_time = rospy.Time.now()
     laser_scan.header.stamp = current_time
     laser_scan.header.frame_id = 'laser'
-    laser_scan.angle_min = -3.1415
-    laser_scan.angle_max = 3.1415
-    laser_scan.angle_increment = 0.00311202858575
+    laser_scan.angle_min = -HALF_ANGLE
+    laser_scan.angle_max = HALF_ANGLE
+    laser_scan.angle_increment = angle_increment
     laser_scan.time_increment = 4.99999987369e-05
-    laser_scan.range_min = 0.00999999977648
+    laser_scan.range_min = 0.0001
     laser_scan.range_max = 32.0
-    laser_scan.ranges = msg.ranges[0:72]
-    laser_scan.intensities = msg.intensities[0:72]
+    laser_scan.ranges = msg.ranges
+    laser_scan.intensities = msg.intensities
     print(laser_scan)
     pub.publish(laser_scan)
 
