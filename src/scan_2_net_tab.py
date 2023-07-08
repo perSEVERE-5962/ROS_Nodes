@@ -17,6 +17,8 @@ cropped_pub = None
 
 table = NetworkTablesInstance.getDefault().getTable('laser_scan')
 
+publish_data = np.array()
+
 # laser_scan_topic = table.getEntry('laser_scan')
 
 
@@ -56,6 +58,9 @@ def callback(msg):
     res_ranges = np.concatenate((right_ranges, left_ranges), -1)
 
     ranges = res_ranges
+
+    global publish_data
+    publish_data = res_ranges
     table.putNumberArray("ranges", ranges)
     print(ranges)
 
@@ -63,15 +68,38 @@ def callback(msg):
 
     angle_to_move = table.getNumber("angle_to_move", "[none returned]")
     print("angle to move: ")
-    print(angle_to_move*180/pi)
+    if isinstance(angle_to_move, str):
+        print(angle_to_move)
+    else:
+        print(str(angle_to_move*(180/pi)))
+
+def publish():
+    pub = rospy.Publisher('/scan_cropped', list, 1)
+    rospy.init_node('scan_2_net_tab')
+    rate = rospy.Rate(10)  # 10hz
+    while not rospy.is_shutdown():
+        data = publish_data
+        rospy.loginfo(data)
+        pub.publish(data)
+        rate.sleep()
+
+if __name__ == '__main__':
+    try:
+        publish()
+    except rospy.ROSInterruptException:
+        pass
+
 
 
 if __name__ =='__main__':
     try:
+        cropped_pub = rospy.Publisher('/scan_cropped', LaserScan, 1)
+
         rospy.init_node('scan_2_net_tab')
 
         rospy.Subscriber('/scan', LaserScan, callback)
-        cropped_pub = rospy.Publisher('/scan_cropped', LaserScan, 1)
+
+        cropped_pub.publish()
         rospy.spin()
 
     except rospy.ROSInterruptException:
