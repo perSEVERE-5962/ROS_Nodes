@@ -77,7 +77,7 @@ def callback(msg):
     # publish cropped scan
     current_time = rospy.Time.now()
     laser_scan.header.stamp = current_time
-    laser_scan.header.frame_id = 'laser'
+    # laser_scan.header.frame_id = 'laser'
     laser_scan.angle_min = -HALF_ANGLE
     laser_scan.angle_max = HALF_ANGLE
     laser_scan.angle_increment = angle_increment
