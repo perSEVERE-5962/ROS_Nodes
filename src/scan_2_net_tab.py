@@ -42,6 +42,10 @@ laser_scan = LaserScan()
 
 # laser_scan_topic = table.getEntry('laser_scan')
 
+ANGLE = pi/4
+LEN_MAX = 100
+cropped_pub = None
+
 
 def callback(msg):
     '''print(msg.angle_min)
