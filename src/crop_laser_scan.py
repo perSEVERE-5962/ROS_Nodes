@@ -10,7 +10,7 @@ from networktables import NetworkTables, NetworkTablesInstance
 import sys
 
 
-NetworkTables.initialize('192.168.1.96')
+NetworkTables.initialize('192.168.1.98')
 
 
 ANGLE = pi/4
