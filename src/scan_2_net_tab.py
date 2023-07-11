@@ -8,7 +8,7 @@ from networktables import NetworkTables, NetworkTablesInstance
 from math import pi
 import sys
 
-NetworkTables.initialize('192.168.1.98')
+NetworkTables.initialize('192.168.1.96')
 
 
 ANGLE = pi/4
@@ -63,7 +63,7 @@ def callback(msg):
     ranges = res_ranges
 
     table.putNumberArray("ranges", ranges)
-    
+
 
     #get angle to move
 
