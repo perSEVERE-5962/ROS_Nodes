@@ -63,7 +63,7 @@ def callback(msg):
     ranges = res_ranges
 
     table.putNumberArray("ranges", ranges)
-    print(ranges)
+    
 
     #get angle to move
 
@@ -85,7 +85,7 @@ def callback(msg):
     laser_scan.range_min = 0.00000001
     laser_scan.range_max = 32.0
     laser_scan.ranges = ranges
-    print(laser_scan)
+
 
     pub.publish(laser_scan)
 
