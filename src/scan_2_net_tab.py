@@ -8,15 +8,33 @@ from networktables import NetworkTables, NetworkTablesInstance
 from math import pi
 import sys
 
-NetworkTables.initialize('192.168.1.96')
 
 
-ANGLE = pi/4
-LEN_MAX = 100
-cropped_pub = None
+
+print(sys.byteorder)
+
+cond = threading.Condition()
+notified = [False]
+
+def connectionListener(connected, info):
+    print(info, '; Connected=%s' % connected)
+    with cond:
+        notified[0] = True
+        cond.notify()
+
+NetworkTables.initialize("192.168.1.96")
 
 
+NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
+
+with cond:
+    print("Waiting")
+    if not notified[0]:
+        cond.wait()
+
+print("Connected!")
 table = NetworkTablesInstance.getDefault().getTable('laser_scan')
+
 
 rospy.init_node('scan_2_net_tab')
 pub = rospy.Publisher('/scan_cropped', LaserScan, queue_size=10)
