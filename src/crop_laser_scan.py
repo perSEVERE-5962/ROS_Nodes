@@ -9,11 +9,11 @@ import threading
 from networktables import NetworkTables, NetworkTablesInstance
 import sys
 
-
-NetworkTables.initialize('192.168.1.98')
+NetworkTables.initialize()
 
 
 ANGLE = pi/4
+HALF_ANGLE = ANGLE / 2
 LEN_MAX = 100
 cropped_pub = None
 
@@ -26,13 +26,14 @@ while True:
     #parse data
 
     #get angle_increment
+
     angle_increment = table.getNumber("angle_increment", 1)
-    print(angle_increment)
+    #print(angle_increment)
 
     #get ranges
-    ranges = table.getNumberArray("ranges", 0)
+    ranges = table.getNumberArray("ranges", None)
 
-    if ranges == 0:
+    if ranges is None:
         print("no data for ranges")
         continue
     ranges = list(ranges)
@@ -41,16 +42,16 @@ while True:
 
 
 
-    print("index number: " + str(len(ranges) - 1))
-    print("total angle: " + str(ANGLE))
+    #print("index number: " + str(len(ranges) - 1))
+    #print("total angle: " + str(ANGLE))
 
     #get the exact angle increment after cropping
     real_increment = ANGLE/(len(ranges) - 1)
-    print("calculated index increment: " + str(real_increment))
+    #print("calculated index increment: " + str(real_increment))
 
 
 
-    print(ranges)
+    #print(ranges)
 
 
 
@@ -62,7 +63,7 @@ while True:
             continue
         angle = (real_increment * i) - HALF_ANGLE + (np.pi/2)
 
-        print("index: " + str(i) + " value: " + str(ranges[i]) + " angle: " + str(angle))
+        #print("index: " + str(i) + " value: " + str(ranges[i]) + " angle: " + str(angle))
 
 
         #convert to (x, y)
@@ -70,7 +71,7 @@ while True:
         y = np.sin(angle) * ranges[i]
         vector_x[i] = x
         vector_y[i] = y
-        print("index: " + str(i) + " x: " + str(vector_x[i]) + " y: " + str(vector_y[i]))
+        #print("index: " + str(i) + " x: " + str(vector_x[i]) + " y: " + str(vector_y[i]))
 
     #linear regression
     array_x = np.asarray(vector_x).reshape((-1, 1))
@@ -81,9 +82,9 @@ while True:
     model.fit(array_x, array_y)
 
     r_sq = model.score(array_x, array_y)
-    print("linear regression complete")
+    #print("linear regression complete")
     print("coefficient of determination: " + str(r_sq))
-    print("intercept: " + str(model.intercept_))
+    #print("intercept: " + str(model.intercept_))
 
     slope = model.coef_[0]
 
@@ -93,7 +94,7 @@ while True:
     line_angle = np.arctan(slope)
 
     angle_to_move = -line_angle
-    print("angle to move the robot (in degrees): " + str(angle_to_move*180/pi))
+    #print("angle to move the robot (in degrees): " + str(angle_to_move*180/pi))
 
     #publish move angle to network table
 
