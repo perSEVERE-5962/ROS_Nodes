@@ -11,9 +11,12 @@ import sys
 from sklearn.linear_model import LinearRegression
 
 #print(sys.byteorder)
-'''
+
 cond = threading.Condition()
 notified = [False]
+
+
+NetworkTables.initialize("10.59.62.2")
 
 def connectionListener(connected, info):
     print(info, '; Connected=%s' % connected)
@@ -33,15 +36,13 @@ with cond:
 
 print("Connected!")
 
-'''
+
 
 
 
 rospy.init_node('scan_2_net_tab')
 pub = rospy.Publisher('/scan_cropped', LaserScan, queue_size=10)
 laser_scan = LaserScan()
-
-#laser_scan_topic = table.getEntry('laser_scan')
 
 table = NetworkTablesInstance.getDefault().getTable("laser_scan")
 
