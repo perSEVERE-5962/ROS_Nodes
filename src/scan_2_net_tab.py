@@ -34,7 +34,7 @@ with cond:
 print("Connected!")
 
 '''
-table = NetworkTablesInstance.startClient(None, "10.59.62.2").getTable('laser_scan')
+table = NetworkTablesInstance.startClient(NetworkTablesInstance.getDefault(), "10.59.62.2").getTable('laser_scan')
 
 
 rospy.init_node('scan_2_net_tab')
