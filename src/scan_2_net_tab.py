@@ -74,7 +74,7 @@ def callback(msg):
     table.putRaw("laser_scan", data)'''
 
     angle_increment = msg.angle_increment
-    table.putNumber("angle_increment", angle_increment)
+    #table.putNumber("angle_increment", angle_increment)
 
     ranges = msg.ranges
 
