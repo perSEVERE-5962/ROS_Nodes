@@ -11,7 +11,7 @@ import sys
 from sklearn.linear_model import LinearRegression
 
 #print(sys.byteorder)
-
+'''
 cond = threading.Condition()
 notified = [False]
 
@@ -25,15 +25,17 @@ def connectionListener(connected, info):
 
 NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
 
-'''
+
 with cond:
     print("Waiting")
     if not notified[0]:
         cond.wait()
 
 print("Connected!")
-table = NetworkTablesInstance.getDefault().getTable('laser_scan')
+
 '''
+table = NetworkTablesInstance.getDefault().getTable('laser_scan')
+
 
 rospy.init_node('scan_2_net_tab')
 pub = rospy.Publisher('/scan_cropped', LaserScan, queue_size=10)
