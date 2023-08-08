@@ -34,14 +34,17 @@ with cond:
 print("Connected!")
 
 '''
-table = NetworkTablesInstance.startClient(NetworkTablesInstance.getDefault(), "10.59.62.2").getTable('laser_scan')
+
 
 
 rospy.init_node('scan_2_net_tab')
 pub = rospy.Publisher('/scan_cropped', LaserScan, queue_size=10)
 laser_scan = LaserScan()
 
-# laser_scan_topic = table.getEntry('laser_scan')
+#laser_scan_topic = table.getEntry('laser_scan')
+
+table = NetworkTablesInstance.getDefault().getTable("laser_scan")
+
 
 ANGLE = pi/4
 LEN_MAX = 100
