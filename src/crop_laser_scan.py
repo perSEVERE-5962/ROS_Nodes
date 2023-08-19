@@ -25,10 +25,11 @@ def callback(msg):
     res_ranges = res_ranges.tolist()
     #res_ranges = res_rantenate((right_ranges, left_ranges), -1)
     #res_ranges = res_ranges[~np.isnan(res_ranges)]
-    for i in res_ranges:
-        if i >= 0.9144:
-            i = float("nan")
+    for i in range(len(res_ranges)):
+        if res_ranges[i] >= 1.4:
+            res_ranges[i] = float("nan")
     print(res_ranges)
+    #0.9144
     if cropped_pub:
         msg.ranges = res_ranges
         cropped_pub.publish(msg)
@@ -46,18 +47,19 @@ def callback(msg):
             y = cos(new_list[number])
             answer = y*i
             second_new_list.append(answer)
-            number+1
+            number=number+1
     new_number = 0
     for i in res_ranges:
         sine = sin(new_list[new_number])
         new_answer = sine*i
         first_new_list.append(new_answer)
-        new_number+1
+        new_number=new_number+1
     from sklearn.cluster import KMeans
     list_of_removal = []
     import matplotlib.pyplot as plt
-    kmeans = KMeans(n_clusters=6)
+    kmeans = KMeans(n_clusters=4)
     #__
+    print(first_new_list, second_new_list)
     first_new_list = [item for item in first_new_list if not(math.isnan(item)) == True]
     second_new_list = [item for item in second_new_list if not(math.isnan(item)) == True]   
  
@@ -89,8 +91,14 @@ def callback(msg):
         elif i == 3:color.append("black")
         elif i == 4:color.append("purple")
         elif i == 5:color.append("pink")
+    centeroids = kmeans.cluster_centers_
     plt.scatter(data["x"], data["y"], c=color)
     plt.savefig("clustering_graph.png")
+    plt.clf()
+    print("here is")
+    
+    
+        
 
     #print(res_ranges, new_list)
 #Still Have to Fine Tune
