@@ -92,9 +92,9 @@ def callback(msg):
         elif i == 4:color.append("purple")
         elif i == 5:color.append("pink")
     centeroids = kmeans.cluster_centers_
-    #plt.scatter(data["x"], data["y"], c=color)
-    #plt.savefig("clustering_graph.png")
-    #plt.clf()
+    plt.scatter(data["x"], data["y"], c=color)
+    plt.savefig("clustering_graph.png")
+    plt.clf()
     print("here is")
     centeroids = centeroids.tolist()
     x_centeroid=[]
@@ -102,11 +102,17 @@ def callback(msg):
     for i in centeroids:
         x_centeroid.append(i[0])
         y_centeroid.append(i[1])
-    print(x_centeroid, y_centeroid)
-    plt.scatter(x_centeroid, y_centeroid)
-    plt.savefig("Centeroids.png")
+    plt.scatter(data["x"], data["y"],c=color)
+    plt.savefig("clustering_graph.png")
     plt.clf()
+    real_centeroids_calculations = []
+    for i in centeroids:
+        real_centeroids_calculations.append(i[0]+i[1])
+    xyz = min(real_centeroids_calculations)
+    location=real_centeroids_calculations.index(xyz)
+    print(centeroids[location])
     
+
         
 
     #print(res_ranges, new_list)
