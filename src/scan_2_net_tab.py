@@ -41,7 +41,7 @@ print("Connected!")
 
 
 rospy.init_node('scan_2_net_tab')
-pub = rospy.Publisher('/scan_cropped', LaserScan, queue_size=10)
+pub = rospy.Publisher('/scan_cropped', LaserScan, queue_size=1)
 laser_scan = LaserScan()
 
 table = NetworkTablesInstance.getDefault().getTable("laser_scan")
