@@ -12,7 +12,7 @@ from math import cos, tan, sin
 #Changing the Clustering Algo is: 
 NetworkTables.initialize("10.0.0.107")
 table = NetworkTablesInstance.getDefault().getTable('crop laser scan table')
-ANGLE = pi/7 #originally 5 
+ANGLE = pi/5 #originally 5 
 cropped_pub = None
 global angle
 def callback(msg):
@@ -26,9 +26,8 @@ def callback(msg):
     #res_ranges = res_rantenate((right_ranges, left_ranges), -1)
     #res_ranges = res_ranges[~np.isnan(res_ranges)]
     for i in range(len(res_ranges)):
-        if res_ranges[i] >= 1.4:
+        if res_ranges[i] >= 1.5:
             res_ranges[i] = float("nan")
-    print(res_ranges)
     #0.9144
     if cropped_pub:
         msg.ranges = res_ranges
@@ -59,7 +58,6 @@ def callback(msg):
     import matplotlib.pyplot as plt
     kmeans = KMeans(n_clusters=4)
     #__
-    print(first_new_list, second_new_list)
     first_new_list = [item for item in first_new_list if not(math.isnan(item)) == True]
     second_new_list = [item for item in second_new_list if not(math.isnan(item)) == True]   
  
@@ -82,7 +80,6 @@ def callback(msg):
     df = pd.DataFrame(data)
     df["Specified_Category"] = kmeans.fit_predict(df)
     df["Specified_Category"] = df["Specified_Category"].astype("category")
-    print(df)
     for i in df["Specified_Category"]:
         #print(i)
         if i == 0:color.append("red")
@@ -92,9 +89,9 @@ def callback(msg):
         elif i == 4:color.append("purple")
         elif i == 5:color.append("pink")
     centeroids = kmeans.cluster_centers_
-    plt.scatter(data["x"], data["y"], c=color)
-    plt.savefig("clustering_graph.png")
-    plt.clf()
+    #plt.scatter(data["x"], data["y"], c=color)
+    #plt.savefig("clustering_graph.png")
+    #plt.clf()
     print("here is")
     centeroids = centeroids.tolist()
     x_centeroid=[]
@@ -102,18 +99,56 @@ def callback(msg):
     for i in centeroids:
         x_centeroid.append(i[0])
         y_centeroid.append(i[1])
+    real_centeroids_calculations = []
+    for i in centeroids:
+        real_centeroids_calculations.append(abs(i[0])+abs(i[1]))
+    xyz = min(real_centeroids_calculations)
+    location=real_centeroids_calculations.index(xyz)
+    print("HERE IS")
+    centeroid_number = 0
+    cenetroid_x_value = []
+    cenetroid_y_value = []
+    color2 = []
+    for i in centeroids:
+        cenetroid_x_value.append(centeroids[centeroid_number][0])
+        cenetroid_y_value.append(centeroids[centeroid_number][1])
+        if centeroid_number == location:
+            color2.append("red")
+        elif centeroid_number != location:
+            color2.append("black")
+        centeroid_number=centeroid_number+1
+
+
+
+    
+    plt.scatter(cenetroid_x_value, cenetroid_y_value, c=color2)
+    plt.savefig("centeroids.png")
+    plt.clf()
     plt.scatter(data["x"], data["y"],c=color)
     plt.savefig("clustering_graph.png")
     plt.clf()
-    real_centeroids_calculations = []
-    for i in centeroids:
-        real_centeroids_calculations.append(i[0]+i[1])
-    xyz = min(real_centeroids_calculations)
-    location=real_centeroids_calculations.index(xyz)
-    print(centeroids[location])
+    print(centeroids[location][0])
+    print(centeroids[location][1])
+    if centeroids[location][0] > -0.05 and centeroids[location][0]< 0.05:
+        print('X Perfect')
+        if centeroids[location][1] > .9 and centeroids[location][1] < 1.1:
+            print("Y Perfect")
+        elif centeroids[location][1] < 1:
+            print("Back")
+        elif centeroids[location][1] > 1:
+            print("Forward")   
+    elif centeroids[location][0] < 0:
+        print('go left')    
+    elif centeroids[location][0] > 0:
+        print('go right')
     
+    
+    
+        
 
         
+
+
 
     #print(res_ranges, new_list)
 #Still Have to Fine Tune
@@ -125,7 +160,7 @@ if __name__ =='__main__':
     try:
         rospy.init_node('crop_laser_scan')
 
-        rospy.Subscriber('/scan', LaserScan, callback)
+        rospy.Subscriber('/scan', LaserScan, callback, queue_size=1)
         cropped_pub = rospy.Publisher('/scan_cropped', LaserScan, queue_size=1)
 
         rospy.spin()
