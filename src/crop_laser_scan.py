@@ -21,8 +21,10 @@ def callback(msg):
     ranges = msg.ranges #of all points0
     right_ranges = ranges[len(msg.ranges)-index_count:]
     left_ranges = ranges[:index_count]
-    res_ranges = np.concatenate((left_ranges, right_ranges), -1)
+    res_ranges = np.concatenate((right_ranges, left_ranges), -1)
     res_ranges = res_ranges.tolist()
+    message_range = msg.ranges
+
     #res_ranges = res_rantenate((right_ranges, left_ranges), -1)
     #res_ranges = res_ranges[~np.isnan(res_ranges)]
     for i in range(len(res_ranges)):
@@ -138,9 +140,9 @@ def callback(msg):
         elif centeroids[location][1] > 1:
             print("Forward")   
     elif centeroids[location][0] < 0:
-        print('go left')    
+        print('go right')    
     elif centeroids[location][0] > 0:
-        print('go right')
+        print('go left')
     
     
     
